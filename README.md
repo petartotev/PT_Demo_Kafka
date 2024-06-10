@@ -85,4 +85,55 @@ In case the 2 Consumers have`ConsumerConfig` with different `GroupId`-s (meaning
 
 ### Demo Kafka UI
 
+1. Edit `docker-compose.yml` and declare `Kafka Manager` Docker container, then rerun:
+
+```
+version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  kafkamanager:
+    image: hlebalbau/kafka-manager:stable
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: zookeeper:2181
+    depends_on:
+      - zookeeper
+      - kafka
+```
+
+2. Access `Kafka Manager` on http://localhost:9000.
+
+3. Go to Menu > `Cluster` > `Add Cluster`
+- Cluster Name: local
+- Cluster Zookeeper Hosts: zookeeper:2181
+- Kafka Version: 2.8.0 (or the version you're using)
+- Enable JMX Polling: false
+- [Save]
+
+4. Check the metrics.  
+In `Topics`, you will see 2 entities:
+- my-list
+- __consumer_offsets
+
+`__consumer_offsets` topic in Apache Kafka is a special internal topic used by Kafka to store the offsets of messages for each consumer group. This topic is crucial for Kafka’s ability to track which messages have been consumed by which consumer in a consumer group.
+
 ## Links

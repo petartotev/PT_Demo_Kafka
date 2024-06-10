@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+  # REQUIRED DEPENDENCY
   # Apache ZooKeeper is an open-source server for highly reliable distributed coordination of cloud applications.
   # Zookeeper is a project of the Apache Software Foundation.
   zookeeper:
@@ -20,3 +21,15 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  # OPTIONAL
+  # Kafka Manager is a UI tool for Kafka.
+  kafkamanager:
+    image: hlebalbau/kafka-manager:stable
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: zookeeper:2181
+    depends_on:
+      - zookeeper
+      - kafka
