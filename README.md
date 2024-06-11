@@ -3,6 +3,10 @@
 ## Contents
 
 - [AWS SQS Queue / Apache Kafka / Rabbit MQ](#aws-sqs-queue-vs-apache-kafka-vs-rabbit-mq)
+  - [AWS SQS](#aws-sqs-simple-queue-service)
+  - [Kafka](#kafka)
+  - [RabbitMQ](#rabbitmq)
+  - [Comparison](#comparison)
 - [Demos](#demos)
     - [Prerequisites](#prerequisites)
     - [Demo Kafka 2 Consumers 1 Producer](#demo-kafka-2-consumers-1-producer)
@@ -10,6 +14,34 @@
 - [Links](#links)
 
 ## AWS SQS Queue vs. Apache Kafka vs. Rabbit MQ
+
+### AWS SQS (Simple Queue Service)
+AWS SQS is a fully managed message queuing service by Amazon Web Services.  
+It enables decoupling and scaling of microservices, distributed systems, and serverless applications.
+
+### Kafka
+Apache Kafka is an open-source stream-processing platform developed by LinkedIn and maintained by the Apache Software Foundation.  
+Designed for high-throughput, low-latency, real-time data feeds.
+
+### RabbitMQ
+RabbitMQ is an open-source message broker software that implements the Advanced Message Queuing Protocol (AMQP).  
+Known for its robustness and flexibility.
+
+### Comparison
+
+
+|Feature      |AWS SQS                                 |Kafka                                           |RabbitMQ                                     |
+|-------------|----------------------------------------|------------------------------------------------|---------------------------------------------|
+|Management   |Fully managed	                         |Self-managed or Confluent Cloud	                |Self-managed or managed services             |
+|Message Order|FIFO (optional)                         |Ordered within partitions                       |Supports ordered messages with queues        |
+|Scalability  |Auto-scaling	                           |Highly scalable with partitions	                |Scalable, but requires manual setup          |
+|Throughput   |High (depends on queue type)	           |Very high (millions of messages / sec)	        |Moderate to high                             |
+|Latency      |Low to moderate                       	 |Low                                             |Low                                          |
+|Persistence  |Short-term message storage	             |Long-term message storage (configurable)	      |Persistent storage with manual configuration |
+|Use Case Fit	|Simple queuing, microservice decoupling |Real-time streaming, large-scale data pipelines	|Complex routing, real-time communication     |
+|Integration  |Deep integration with AWS ecosystem	   |Integrates with many systems via connectors	    |Integrates well with various protocols       |
+|Support      |Strong AWS support	                     |Large open-source community	                    |Large open-source community                  |
+|Ease of Use	|Easy to use and setup	                 |Requires more setup and maintenance	            |Moderate setup complexity                    |
 
 ## Demos
 
@@ -129,8 +161,7 @@ services:
 - Enable JMX Polling: false
 - [Save]
 
-4. Check the metrics.  
-In `Topics`, you will see 2 entities:
+4. Check the metrics. In `Topics`, you will see 2 entities:
 - my-list
 - __consumer_offsets
 
