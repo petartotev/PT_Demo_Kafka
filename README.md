@@ -8,9 +8,12 @@
   - [RabbitMQ](#rabbitmq)
   - [Comparison](#comparison)
 - [Demos](#demos)
-    - [Prerequisites](#prerequisites)
-    - [Demo Kafka 2 Consumers 1 Producer](#demo-kafka-2-consumers-1-producer)
-    - [Demo Kafka UI](#demo-kafka-ui)
+  - [Prerequisites](#prerequisites)
+  - [Demo Kafka 2 Consumers 1 Producer](#demo-kafka-2-consumers-1-producer)
+  - [Demo Kafka UI](#demo-kafka-ui)
+- [Publish and Receive Messages](#publish-and-receive-messages)
+  - [Using Terminal](#using-terminal)
+  - [Using Python](#using-python)
 - [Links](#links)
 
 ## AWS SQS Queue vs. Apache Kafka vs. Rabbit MQ
@@ -167,4 +170,34 @@ services:
 
 `__consumer_offsets` topic in Apache Kafka is a special internal topic used by Kafka to store the offsets of messages for each consumer group. This topic is crucial for Kafka’s ability to track which messages have been consumed by which consumer in a consumer group.
 
+### Publish and Receive Messages
+
+#### Using Terminal
+
+```
+# Look for IMAGE confluentinc/cp-kafka:7.3.0 and NAME src-kafka-1 and get the CONTAINER ID:
+docker ps
+
+docker exec -it bf90a67beb2e bash
+
+# Create topic
+kafka-topics --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+# Verify result
+kafka-topics --list --bootstrap-server localhost:9092
+
+# Execute in 1st terminal:
+kafka-console-consumer --topic test-topic --bootstrap-server localhost:9092 --from-beginning
+
+# Open 2nd terminal:
+kafka-console-producer --topic test-topic --bootstrap-server localhost:9092
+```
+
+#### Using Python
+1. Create `Consumer.py`
+2. Create `Producer.py`
+3. Run in parallel.
+
 ## Links
+
+- https://kafka.apache.org/documentation/
